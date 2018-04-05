@@ -29,7 +29,7 @@ $ npm run dev
 RestAPI 서버를 실행합니다.
 ```bash
 $ cd livemsg/server
-$ node serv.js
+$ npm start
 ```
 
 이제 `localhost:8080` 으로 접속해서 사용하시면 됩니다!
