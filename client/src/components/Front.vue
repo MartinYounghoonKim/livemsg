@@ -75,7 +75,7 @@ export default {
     {
 		sortFunc()
 		{
-			this.$nextTick(function() 
+			this.$nextTick(function()
 			{
 				if ( this.selected == "Recent questions" )
 				{
