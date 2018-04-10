@@ -149,7 +149,7 @@ export default {
                     //this.history[response.data[i]] = response.data[i+1];
                     this.history[j]['timestamp'] = JSON.parse(response.data[i]).timestamp;
                     this.history[j]['postMsg'] = JSON.parse(response.data[i]).msg;
-                    this.history[j]['score'] = response.data[i+1];
+                    this.history[j]['score'] = parseInt(response.data[i+1]);
                 }
 				this.sortFunc();
             })
