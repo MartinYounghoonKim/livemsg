@@ -165,22 +165,21 @@ export default {
 
 			var postRef = db.collection('section1');
 
-			postRef.get().
-				then(( snapshot )=> {
-					this.history = [];
-					var i = 0;
-					snapshot.forEach((doc) => {
-						this.history[i] = [];
-						this.history[i]['id'] = doc.id;
-						this.history[i]['timestamp'] = doc.data().timestamp;
-						this.history[i]['postMsg'] = doc.data().msg;
-						this.history[i]['score'] = doc.data().score;
-						i++;
+			postRef.onSnapshot(( snapshot ) => {
+						this.history = [];
+						var i = 0;
+						snapshot.forEach((doc) => {
+							this.history[i] = [];
+							this.history[i]['id'] = doc.id;
+							this.history[i]['timestamp'] = doc.data().timestamp;
+							this.history[i]['postMsg'] = doc.data().msg;
+							this.history[i]['score'] = doc.data().score;
+							i++;
+						})
+						this.sortFunc();
+					}, ( error ) => {
+						console.log('Error getting documents', err);
 					});
-				})
-				.catch(( err ) => {
-					console.log('Error getting documents', err);
-				});
 
 			/*
             axios.get('http://localhost:7005/timeline')
