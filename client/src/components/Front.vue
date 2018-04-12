@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import db from './firebaseInit';
 
 export default {
@@ -114,18 +113,6 @@ export default {
 			}).then(ref => {
                 console.log( ref );
 			});
-
-			/*
-            axios.post('http://localhost:7005/upvote', {
-                key : msg
-            })
-            .then(response => {
-                this.getTimeline();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-			*/
         },
         todo()
         {
@@ -145,20 +132,6 @@ export default {
 			}).then(ref => {
                 this.postMsg = '';
 			});
-			/*
-            axios.post('http://localhost:7005/writePost', {
-                timestamp : timestamp,
-                msg : this.postMsg
-            })
-            .then(response => {
-                console.log(response);
-                this.postMsg = '';
-                this.getTimeline();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-			*/
         },
         getTimeline()
         {
@@ -180,25 +153,6 @@ export default {
 					}, ( error ) => {
 						console.log('Error getting documents', err);
 					});
-
-			/*
-            axios.get('http://localhost:7005/timeline')
-            .then(response => {
-                this.history = [];
-                for (var i = 0, j = 0; i < response.data.length; i+=2, j++)
-                {
-                    this.history[j] = [];
-                    //this.history[response.data[i]] = response.data[i+1];
-                    this.history[j]['timestamp'] = JSON.parse(response.data[i]).timestamp;
-                    this.history[j]['postMsg'] = JSON.parse(response.data[i]).msg;
-                    this.history[j]['score'] = parseInt(response.data[i+1]);
-                }
-				this.sortFunc();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-			*/
         }
     }
 }
