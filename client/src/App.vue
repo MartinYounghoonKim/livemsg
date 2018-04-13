@@ -15,13 +15,19 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Apple SD Gothic', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  background-color: rgb(242, 242, 242);
-  margin-top: 30px;
-  margin-bottom: 30px;
+}
+h1, h2, h3, ul, li, div, span, p, body {
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+:focus {
+  outline: none;
 }
 </style>
