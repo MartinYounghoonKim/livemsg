@@ -16,11 +16,21 @@ export default {
 @keyframes cardIn {
   from {
     opacity: 0;
-    transform: translateX(20%);
+    transform: translateY(20%);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+  }
+}
+@keyframes toggleInput {
+  from {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 .cardIn-enter-active {
@@ -28,6 +38,12 @@ export default {
 }
 .cardIn-leave-active {
   animation: cardIn 0.8s reverse;
+}
+.toggle-input-enter-active {
+  animation: toggleInput 0.3s;
+}
+.toggle-input-leave-active {
+  animation: toggleInput 0.3s reverse;
 }
 #app {
   font-family: 'Apple SD Gothic', Helvetica, Arial, sans-serif;
@@ -44,6 +60,9 @@ ul {
 }
 :focus {
   outline: none;
+}
+::placeholder {
+  color: #bbb;
 }
 button {
   border:none;

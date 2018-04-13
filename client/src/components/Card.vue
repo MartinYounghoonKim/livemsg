@@ -49,6 +49,7 @@ export default {
 				score	: upvote
 			}).then(ref => {
                 console.log( ref );
+                console.log( 'upvote')
 			});
         },
     }
@@ -82,7 +83,7 @@ export default {
     font-size: 13px;
 }
 .card-content {
-    margin: 8px 0px;
+    margin: 13px 0px 4px;
     font-size: 15px;
     color: #666;
     line-height: 22px;
