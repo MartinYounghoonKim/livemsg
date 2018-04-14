@@ -42,7 +42,7 @@
                         <b-col style="flex: 0 0 90%;max-width: 90%; color: rgba(0,0,0,.4);">{{ key.postMsg }}</b-col>
                     </b-row>
                     <b-row>
-                        <b-button size="sm" style="margin-left: 10px" @click="upvote(key)">{{ key.score }} upvote</b-button>
+                        <b-button size="sm" style="margin-left: 10px" @click="upvote(key.id, key.score)">{{ key.score }} upvote</b-button>
                     </b-row>
                 </div>
             </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import db from './firebaseInit';
 
 export default {
     name: 'HelloWorld',
@@ -69,7 +69,7 @@ export default {
     mounted()
     {
         this.getTimeline();
-        this.todo();
+        //this.todo();
     },
     methods:
     {
@@ -103,18 +103,16 @@ export default {
 				}
 			});
 		},
-        upvote(post)
+        upvote(docId, upvote)
         {
-            var msg = JSON.stringify({'timestamp': post.timestamp, 'msg': post.postMsg});
-            axios.post('http://localhost:7005/upvote', {
-                key : msg
-            })
-            .then(response => {
-                this.getTimeline();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+			var postRef = db.collection('section1').doc(docId);
+			upvote++;
+
+			postRef.update({
+				score	: upvote
+			}).then(ref => {
+                console.log( ref );
+			});
         },
         todo()
         {
@@ -125,37 +123,36 @@ export default {
         submit()
         {
             let timestamp = Date();
-            axios.post('http://localhost:7005/writePost', {
-                timestamp : timestamp,
-                msg : this.postMsg
-            })
-            .then(response => {
-                console.log(response);
+			var postRef = db.collection('section1').doc();
+
+			postRef.set({
+				score		: 0,
+				timestamp	: timestamp,
+				msg			: this.postMsg
+			}).then(ref => {
                 this.postMsg = '';
-                this.getTimeline();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+			});
         },
         getTimeline()
         {
-            axios.get('http://localhost:7005/timeline')
-            .then(response => {
-                this.history = [];
-                for (var i = 0, j = 0; i < response.data.length; i+=2, j++)
-                {
-                    this.history[j] = [];
-                    //this.history[response.data[i]] = response.data[i+1];
-                    this.history[j]['timestamp'] = JSON.parse(response.data[i]).timestamp;
-                    this.history[j]['postMsg'] = JSON.parse(response.data[i]).msg;
-                    this.history[j]['score'] = parseInt(response.data[i+1]);
-                }
-				this.sortFunc();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+
+			var postRef = db.collection('section1');
+
+			postRef.onSnapshot(( snapshot ) => {
+						this.history = [];
+						var i = 0;
+						snapshot.forEach((doc) => {
+							this.history[i] = [];
+							this.history[i]['id'] = doc.id;
+							this.history[i]['timestamp'] = doc.data().timestamp;
+							this.history[i]['postMsg'] = doc.data().msg;
+							this.history[i]['score'] = doc.data().score;
+							i++;
+						})
+						this.sortFunc();
+					}, ( error ) => {
+						console.log('Error getting documents', err);
+					});
         }
     }
 }
