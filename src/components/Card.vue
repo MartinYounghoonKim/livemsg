@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-num">
-          No. {{ item.postnum }}
+          No. {{ item.postnum + 1 }}
         </div>
         <div class="card-date">
           {{ item.timestamp| moment("MMMM DD, YYYY HH:mm:ss") }}
@@ -24,7 +24,7 @@
   import db from '../firebaseStore/firebaseInit';
 
   export default {
-    props: ['item'],
+    props: ['item', 'trackName'],
     data() {
       return {
         upVoted: false,
@@ -41,7 +41,7 @@
     },
     methods: {
       upvote(docId, upvote) {
-        var postRef = db.collection('section1').doc(docId);
+        var postRef = db.collection(this.trackName).doc(docId);
         upvote++;
         this.upVoted = true;
         postRef.update({
