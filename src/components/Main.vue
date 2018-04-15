@@ -23,7 +23,7 @@
         </div>
         <div class="line"></div>
         <div>
-          <Card v-for="item in history" :key="item.timestamp" :item="item"/>
+          <Card v-for="item in history" :key="item.timestamp" :item="item" :trackName="trackName"/>
         </div>
       </div>
     </div>
@@ -74,6 +74,7 @@
         selected: 'Recent',
         options: ['Popular', 'Recent'],
         mobileInputState: false,
+        trackName: '',		
       }
     },
     computed: {
@@ -86,10 +87,10 @@
       }
     },
     created() {
+      this.trackName = moment(Date()).format('YYYYMMDD');
     },
     mounted() {
       this.getTimeline();
-      //this.todo();
     },
     methods: {
       openInput() {
@@ -146,15 +147,9 @@
           }
         });
       },
-
-      todo() {
-        setInterval(() => {
-          this.getTimeline();
-        }, 3000);
-      },
       submit() {
         let timestamp = Date();
-        var postRef = db.collection('section1').doc();
+        var postRef = db.collection(this.trackName).doc();
         var tempMsg = this.postMsg
         this.postMsg = '';
         postRef.set({
@@ -171,7 +166,7 @@
       },
       getTimeline() {
 
-        var postRef = db.collection('section1');
+        var postRef = db.collection(this.trackName);
 
         postRef.onSnapshot((snapshot) => {
           this.history = [];
