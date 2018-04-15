@@ -91,7 +91,6 @@
     },
     mounted() {
       this.getTimeline();
-      //this.todo();
     },
     methods: {
       openInput() {
@@ -147,12 +146,6 @@
             });
           }
         });
-      },
-
-      todo() {
-        setInterval(() => {
-          this.getTimeline();
-        }, 3000);
       },
       submit() {
         let timestamp = Date();
