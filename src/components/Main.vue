@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="container">
     <div class="main-view">
       <div class="title-msg">{{ msg }}</div>
@@ -23,7 +23,7 @@
         </div>
         <div class="line"></div>
         <div>
-          <Card v-for="item in history" :key="item.timestamp" :item="item" :trackName="trackName"/>
+          <Card v-for="(item,index) in history" :key="item.milliTimestamp" :item="item" :postnum="index" :trackName="trackName"/>
         </div>
       </div>
     </div>
@@ -43,10 +43,10 @@
       </div>
     </transition>
     <transition name="toggle-input" appear>
-      <div class="float-bar" v-if="mobileInputState">
+      <div class="float-bar" v-if="mobileInputState" >
         <div class="input-wrapper">
           <span class="btn-close" @click="toggleInput">close</span>
-          <textarea class="input-question" id="mobile-textarea" v-model="postMsg" placeholder="질문을 남겨주세요" :rows="6"
+          <textarea v-autoToggle class="input-question" id="mobile-textarea" v-model="postMsg" placeholder="질문을 남겨주세요" :rows="6"
                     :max-rows="6"></textarea>
         </div>
         <div class="btn-wrapper">
@@ -95,10 +95,10 @@
     methods: {
       openInput() {
         this.mobileInputState = true
-        this.$nextTick(() => {
-          var target = document.getElementById('mobile-textarea')
-          target.focus()
-        })
+        // this.$nextTick(() => {
+        //   var target = document.getElementById('mobile-textarea')
+        //   target.focus()
+        // })
       },
       toggleInput() {
         this.mobileInputState = !this.mobileInputState
@@ -148,15 +148,19 @@
         });
       },
       submit() {
-        let timestamp = Date();
+        var date = new Date();
+        var millisecond = moment().millisecond()
+        var timestamp = date
+        var milliTimestamp = `${date}${millisecond}` 
+        console.log(timestamp)
         var postRef = db.collection(this.trackName).doc();
         var tempMsg = this.postMsg
         this.postMsg = '';
         postRef.set({
           score: 0,
           timestamp: timestamp,
+          milliTimestamp : milliTimestamp,
           msg: tempMsg,
-          postnum: this.history.length
         }).then(ref => {
 
         }).catch(err => {
@@ -174,10 +178,10 @@
           snapshot.forEach((doc) => {
             this.history[i] = [];
             this.history[i]['id'] = doc.id;
-            this.history[i]['timestamp'] = doc.data().timestamp;
+            this.history[i]['timestamp'] = moment(doc.data().timestamp).calendar();
             this.history[i]['postMsg'] = doc.data().msg;
             this.history[i]['score'] = doc.data().score;
-            this.history[i]['postnum'] = doc.data().postnum;
+            this.history[i]['milliTimestamp'] = doc.data().milliTimestamp;
             i++;
           })
           this.sortFunc(this.selected);
@@ -188,6 +192,14 @@
     },
     components: {
       Card: Card,
+    },
+    directives: {
+      autoToggle (el, binding, vnode) {
+        console.log(vnode)
+        // this.$nextTick(()=> {
+        //   el.focus();
+        // })
+      }
     }
   }
 </script>
