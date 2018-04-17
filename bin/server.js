@@ -49,9 +49,10 @@ if (!isProduction) {
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000,
   }));
-  
+
   app.get('/', function (req, res) {
     res.send(`
+    <title>livemsg</title>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
     <body><div id="app"></div><script src=\'dist/bundle.js\'></script></body>`);
   });
