@@ -43,8 +43,8 @@
       upvote(docId, upvote) {
         var postRef = db.collection(this.trackName).doc(docId);
 
-		this.voteStatus == true ? upvote-- : upvote++;
-		this.voteStatus = !this.voteStatus;
+        this.voteStatus == true ? upvote-- : upvote++;
+        this.voteStatus = !this.voteStatus;
 
         postRef.update({
           score: upvote

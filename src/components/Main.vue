@@ -167,14 +167,14 @@
         postRef.onSnapshot((snapshot) => {
           this.history = [];
           snapshot.forEach((doc) => {
-			this.history.push({
-				'id'		: doc.id,
-				'timestamp'	: moment(doc.data().timestamp).calendar(),
-				'postMsg'	: doc.data().msg,
-				'postNum'	: doc.data().postNum,
-				'score'		: doc.data().score,
-				'milliTimestamp': doc.data().milliTimestamp
-			})
+            this.history.push({
+                'id'		: doc.id,
+                'timestamp'	: moment(doc.data().timestamp).calendar(),
+                'postMsg'	: doc.data().msg,
+                'postNum'	: doc.data().postNum,
+                'score'		: doc.data().score,
+                'milliTimestamp': doc.data().milliTimestamp
+            })
           })
           this.sortFunc(this.selected);
         }, (error) => {
