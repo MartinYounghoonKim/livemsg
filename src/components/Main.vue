@@ -166,16 +166,15 @@
         var postRef = db.collection(this.trackName);
         postRef.onSnapshot((snapshot) => {
           this.history = [];
-          var i = 0;
           snapshot.forEach((doc) => {
-            this.history[i] = [];
-            this.history[i]['id'] = doc.id;
-            this.history[i]['timestamp'] = moment(doc.data().timestamp).calendar();
-            this.history[i]['postMsg'] = doc.data().msg;
-            this.history[i]['postNum'] = doc.data().postNum;
-            this.history[i]['score'] = doc.data().score;
-            this.history[i]['milliTimestamp'] = doc.data().milliTimestamp;
-            i++;
+			this.history.push({
+				'id'		: doc.id,
+				'timestamp'	: moment(doc.data().timestamp).calendar(),
+				'postMsg'	: doc.data().msg,
+				'postNum'	: doc.data().postNum,
+				'score'		: doc.data().score,
+				'milliTimestamp': doc.data().milliTimestamp
+			})
           })
           this.sortFunc(this.selected);
         }, (error) => {
