@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="container">
     <div class="main-view">
       <div class="title-msg">{{ msg }}</div>
@@ -8,10 +8,6 @@
             {{ history.length }} questions
           </div>
           <div>
-            <!-- <select class="sort-select" @change="sortFunc" v-model="selected">
-              <option :value="option" v-for="option in options" :key="option.key">{{option}}</option>
-            </select>
-            <img class="ic-downarrow" src="../assets/ic_downarrow.svg" alt=""> -->
             <span class="sort-select"
                   :class="{ selected : option == selected }"
                   v-for="option in options"
@@ -23,7 +19,7 @@
         </div>
         <div class="line"></div>
         <div>
-          <Card v-for="item in history" :key="item.timestamp" :item="item" :trackName="trackName"/>
+          <Card v-for="(item) in history" :key="item.milliTimestamp" :item="item" :trackName="trackName"/>
         </div>
       </div>
     </div>
@@ -43,10 +39,10 @@
       </div>
     </transition>
     <transition name="toggle-input" appear>
-      <div class="float-bar" v-if="mobileInputState">
+      <div class="float-bar" v-if="mobileInputState" >
         <div class="input-wrapper">
           <span class="btn-close" @click="toggleInput">close</span>
-          <textarea class="input-question" id="mobile-textarea" v-model="postMsg" placeholder="질문을 남겨주세요" :rows="6"
+          <textarea v-autoToggle class="input-question" id="mobile-textarea" v-model="postMsg" placeholder="질문을 남겨주세요" :rows="6"
                     :max-rows="6"></textarea>
         </div>
         <div class="btn-wrapper">
@@ -95,10 +91,6 @@
     methods: {
       openInput() {
         this.mobileInputState = true
-        this.$nextTick(() => {
-          var target = document.getElementById('mobile-textarea')
-          target.focus()
-        })
       },
       toggleInput() {
         this.mobileInputState = !this.mobileInputState
@@ -108,8 +100,8 @@
         this.$nextTick(() => {
           if (this.selected == "Recent") {
             this.history.sort((a, b) => {
-              var aTime = moment(a.timestamp).format('YYYYMMDDHHmmss')
-              var bTime = moment(b.timestamp).format('YYYYMMDDHHmmss')
+              var aTime = a.milliTimestamp
+              var bTime = b.milliTimestamp
               aTime = Number(aTime)
               bTime = Number(bTime)
               if (aTime > bTime) {
@@ -129,9 +121,9 @@
               if (a.score < b.score) {
                 return 1;
               }
-              if (a.score = b.score) {
-                var aTime = moment(a.timestamp).format('YYYYMMDDHHmmss')
-                var bTime = moment(b.timestamp).format('YYYYMMDDHHmmss')
+              if (a.score == b.score) {
+                var aTime = a.milliTimestamp
+                var bTime = b.milliTimestamp
                 aTime = Number(aTime)
                 bTime = Number(bTime)
                 if (aTime > bTime) {
@@ -148,15 +140,21 @@
         });
       },
       submit() {
-        let timestamp = Date();
+        var date = new Date();
+        var millisecond = moment().millisecond()
+        var timestamp = date
+        var milliTimestamp = `${moment(date).format('YYYYMMDDHHmmss')}.${millisecond}` 
+        var postNum = this.history.length + 1
         var postRef = db.collection(this.trackName).doc();
+        // 에러가 날 경우 .catch()에서 메세지 다시 복원
         var tempMsg = this.postMsg
         this.postMsg = '';
         postRef.set({
           score: 0,
           timestamp: timestamp,
+          milliTimestamp : milliTimestamp,
           msg: tempMsg,
-          postnum: this.history.length
+          postNum: postNum
         }).then(ref => {
 
         }).catch(err => {
@@ -165,19 +163,18 @@
         });
       },
       getTimeline() {
-
         var postRef = db.collection(this.trackName);
-
         postRef.onSnapshot((snapshot) => {
           this.history = [];
           var i = 0;
           snapshot.forEach((doc) => {
             this.history[i] = [];
             this.history[i]['id'] = doc.id;
-            this.history[i]['timestamp'] = doc.data().timestamp;
+            this.history[i]['timestamp'] = moment(doc.data().timestamp).calendar();
             this.history[i]['postMsg'] = doc.data().msg;
+            this.history[i]['postNum'] = doc.data().postNum;
             this.history[i]['score'] = doc.data().score;
-            this.history[i]['postnum'] = doc.data().postnum;
+            this.history[i]['milliTimestamp'] = doc.data().milliTimestamp;
             i++;
           })
           this.sortFunc(this.selected);
@@ -188,6 +185,14 @@
     },
     components: {
       Card: Card,
+    },
+    directives: {
+      autoToggle (el) {
+        setTimeout(()=> {
+          el.focus();
+        }, 300)
+          
+      }
     }
   }
 </script>

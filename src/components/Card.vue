@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-num">
-          No. {{ item.postnum + 1 }}
+          No. {{ item.postNum }}
         </div>
         <div class="card-date">
           {{ item.timestamp| moment("MMMM DD, YYYY HH:mm:ss") }}
