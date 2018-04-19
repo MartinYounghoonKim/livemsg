@@ -11,10 +11,10 @@
       </div>
       <p class="card-content" :class="{'large-text' : isShort}">{{ item.postMsg }}</p>
       <div class="card-footer">
-        <span class="card-score" :class="{active:upVoted}">{{ item.score }}</span>
-        <button class="card-up" @click="upvote(item.id, item.score)" :class="{active:upVoted}" :disabled="upVoted">
-          <img src="../assets/up_active.svg" v-if="upVoted" alt="">
-          <img src="../assets/up_inactive.svg" v-if="!upVoted" alt="">
+        <span class="card-score" :class="{active:voteStatus}">{{ item.score }}</span>
+        <button class="card-up" @click="upvote(item.id, item.score)" :class="{active:voteStatus}">
+          <img src="../assets/up_active.svg" v-if="voteStatus" alt="">
+          <img src="../assets/up_inactive.svg" v-if="!voteStatus" alt="">
         </button>
       </div>
     </div>
@@ -27,7 +27,7 @@
     props: ['item', 'trackName'],
     data() {
       return {
-        upVoted: false,
+        voteStatus: false,
       }
     },
     computed: {
@@ -42,8 +42,10 @@
     methods: {
       upvote(docId, upvote) {
         var postRef = db.collection(this.trackName).doc(docId);
-        upvote++;
-        this.upVoted = true;
+
+        this.voteStatus == true ? upvote-- : upvote++;
+        this.voteStatus = !this.voteStatus;
+
         postRef.update({
           score: upvote
         }).then(ref => {
