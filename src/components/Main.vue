@@ -46,11 +46,19 @@
       <div class="float-bar" v-if="mobileInputState">
         <div class="input-wrapper">
           <span class="btn-close" @click="toggleInput">close</span>
-          <textarea class="input-question" id="mobile-textarea" v-model="postMsg" placeholder="질문을 남겨주세요" :rows="6"
+          <textarea class="input-question"
+                    id="mobile-textarea"
+                    v-model="postMsg"
+                    placeholder="질문을 남겨주세요"
+                    :rows="6"
                     :max-rows="6"></textarea>
         </div>
         <div class="btn-wrapper">
-          <button class="btn-ask" @click="submit()" :disabled="!checkEmptyPost" :class="{active:checkEmptyPost}">ASK
+          <button class="btn-ask"
+                  :disabled="!checkEmptyPost"
+                  :class="{active:checkEmptyPost}"
+                  @click="submit" >
+            ASK
           </button>
         </div>
       </div>
@@ -153,14 +161,18 @@
         }, 3000);
       },
       submit() {
-        let timestamp = Date();
-        var postRef = db.collection('section1').doc();
-        var tempMsg = this.postMsg
+        if (this.postMsg.length === 0) {
+          return false;
+        }
+        const postRef = db.collection('section1').doc();
+        const timestamp = moment()._d;
+        const msg = this.postMsg;
         this.postMsg = '';
+
         postRef.set({
           score: 0,
-          timestamp: timestamp,
-          msg: tempMsg,
+          timestamp,
+          msg,
           postnum: this.history.length
         }).then(ref => {
 
