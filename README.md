@@ -3,6 +3,7 @@
 
 <p align="center">
 <a target="_blank" href="https://www.npmjs.com/package/node"><img src="https://img.shields.io/npm/v/npm.svg?registry_uri=https%3A%2F%2Fregistry.npmjs.com" alt="Version"></a>
+<a target="_blank" href="#none"><img src="https://badge.fury.io/js/node.svg"/></a>
 <a target="_blank" href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/l/vue.svg" alt="License"></a>
 <a target="_blank" href="https://vuejs.org"><img alt="" src="https://img.shields.io/badge/vue.js-2.x-green.svg"></a>
 </p>
