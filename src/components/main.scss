@@ -3,15 +3,9 @@
   }
 
   .main-view {
+    margin-top: 72px;
     width: 100%;
     padding-bottom: 160px;
-  }
-
-  .title-msg {
-    font-family: 'Roboto';
-    font-size: 32px;
-    font-weight: 100;
-    padding: 16px 16px 12px 16px;
   }
 
   .sort-select {
@@ -40,7 +34,7 @@
   }
 
   .line {
-    margin: 0px 16px 4px 16px;
+    margin: 0px 0px 4px 0px;
     background-color: #eee;
     height: 1px;
   }
@@ -143,7 +137,7 @@
     .float-modal {
       display: inline-block;
       position: fixed;
-      top: 145px;
+      top: 114px;
       left: calc(50vw + 40px);
       width: 340px;
       background-color: #fff;

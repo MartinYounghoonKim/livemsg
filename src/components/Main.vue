@@ -1,7 +1,8 @@
   <template>
   <div class="container">
+    <Gnb/>
     <div class="main-view">
-      <div class="title-msg">{{ msg }}</div>
+      
       <div>
         <div class="list-header">
           <div class="question-count">
@@ -59,6 +60,7 @@
   import db from '../firebaseStore/firebaseInit';
   import Card from './Card';
   import moment from 'moment';
+  import Gnb from './Gnb';
 
   export default {
     name: 'HelloWorld',
@@ -185,6 +187,7 @@
     },
     components: {
       Card: Card,
+      Gnb: Gnb,
     },
     directives: {
       autoToggle (el) {
