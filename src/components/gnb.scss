@@ -21,5 +21,13 @@
 
 .login-box {
     display: flex;
-    
+}
+.user-photo {
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    overflow:hidden;
+    img {
+        width: 100%;
+    }
 }
