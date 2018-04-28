@@ -1,10 +1,11 @@
 <template>
   <div class="wrapper-gnb">
       <div class="title-msg">{{ msg }}</div>
-      <div class="login-box" v-if="!user">
+{{ loginState }}
+      <div class="login-box" v-if="!loginState">
           <button @click="signIn()">login</button>
       </div>
-      <div class="login-box"  v-if="user">
+      <div class="login-box"  v-if="loginState">
           <div>
               {{ user.displayName }} 
           </div>
@@ -18,17 +19,21 @@
 
 <script>
 import firebase from 'firebase';
+import store from '../vuex/store'
 export default {
     data() {
         return {
             msg: 'LIVE Q&A',
             user: '',
+            loginState: false,
         }
     },
     beforeCreate: function() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.user = user;
+          this.$store.loginState = true;
+          loginState = this.$store.loginState;
         }
       })
     },
@@ -38,11 +43,15 @@ export default {
         provider.addScope('https://www.googleapis.com/auth/plus.login');
         firebase.auth().signInWithRedirect(provider).then((result) => {
           this.user = result.user;
+          this.$store.loginState = true;
+          loginState = this.$store.loginState;
         }).catch(err => console.log(err))
       },
       signOut() {
         firebase.auth().signOut().then(() => {
           this.user = null;
+          this.$store.loginState = false;
+          loginState = this.$store.loginState;
         }).catch(err => console.log(err))
       },
     }
