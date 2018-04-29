@@ -38,12 +38,12 @@ export default {
         provider.addScope('https://www.googleapis.com/auth/plus.login');
         firebase.auth().signInWithRedirect(provider).then((result) => {
           this.user = result.user;
-        }).catch(err => console.log(error))
+        }).catch(err => console.log(err))
       },
       signOut() {
         firebase.auth().signOut().then(() => {
           this.user = null;
-        }).catch(err => console.log(error))
+        }).catch(err => console.log(err))
       },
     }
 }
