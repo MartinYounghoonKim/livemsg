@@ -1,11 +1,10 @@
 <template>
   <div class="wrapper-gnb">
       <div class="title-msg">{{ msg }}</div>
-{{ loginState }}
-      <div class="login-box" v-if="!loginState">
+      <div class="login-box" v-if="!this.$store.state.login">
           <button @click="signIn()">login</button>
       </div>
-      <div class="login-box"  v-if="loginState">
+      <div class="login-box"  v-if="this.$store.state.login">
           <div>
               {{ user.displayName }} 
           </div>
@@ -19,21 +18,19 @@
 
 <script>
 import firebase from 'firebase';
-import store from '../vuex/store'
+import { store } from '../vuex/store'
 export default {
     data() {
         return {
             msg: 'LIVE Q&A',
             user: '',
-            loginState: false,
         }
     },
     beforeCreate: function() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.user = user;
-          this.$store.loginState = true;
-          loginState = this.$store.loginState;
+          this.$store.state.login = true;
         }
       })
     },
@@ -43,15 +40,13 @@ export default {
         provider.addScope('https://www.googleapis.com/auth/plus.login');
         firebase.auth().signInWithRedirect(provider).then((result) => {
           this.user = result.user;
-          this.$store.loginState = true;
-          loginState = this.$store.loginState;
+          this.$store.state.login = true;
         }).catch(err => console.log(err))
       },
       signOut() {
         firebase.auth().signOut().then(() => {
           this.user = null;
-          this.$store.loginState = false;
-          loginState = this.$store.loginState;
+          this.$store.state.login = false;
         }).catch(err => console.log(err))
       },
     }

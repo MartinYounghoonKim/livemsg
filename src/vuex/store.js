@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  loginState: false,
+export const store = new Vuex.Store({
+  state : {
+    login: false,
+  },
   strict: true
 })
