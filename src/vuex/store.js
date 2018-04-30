@@ -7,5 +7,5 @@ export const store = new Vuex.Store({
   state : {
     login: false,
   },
-  strict: true
+  strict: false
 })
