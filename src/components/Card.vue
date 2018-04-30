@@ -21,7 +21,7 @@
   </transition>
 </template>
 <script>
-  import db from '../firebaseStore/firebaseInit';
+  import db from '../firebaseStore/firebase.store';
 
   export default {
     props: ['item', 'trackName'],
@@ -57,6 +57,6 @@
   }
 </script>
 <style lang="scss" scoped>
-  @import 'card.scss';
+  @import './card';
 </style>
 

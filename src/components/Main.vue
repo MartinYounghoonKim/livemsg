@@ -2,7 +2,7 @@
   <div class="container">
     <Gnb/>
     <div class="main-view">
-      
+
       <div>
         <div class="list-header">
           <div class="question-count">
@@ -57,7 +57,7 @@
 
 
 <script>
-  import db from '../firebaseStore/firebaseInit';
+  import db from '../firebaseStore/firebase.store';
   import Card from './Card';
   import moment from 'moment';
   import Gnb from './Gnb';
@@ -72,7 +72,7 @@
         selected: 'Recent',
         options: ['Popular', 'Recent'],
         mobileInputState: false,
-        trackName: '',		
+        trackName: '',
       }
     },
     computed: {
@@ -145,7 +145,7 @@
         var date = new Date();
         var millisecond = moment().millisecond()
         var timestamp = date
-        var milliTimestamp = `${moment(date).format('YYYYMMDDHHmmss')}.${millisecond}` 
+        var milliTimestamp = `${moment(date).format('YYYYMMDDHHmmss')}.${millisecond}`
         var postNum = this.history.length + 1
         var postRef = db.collection(this.trackName).doc();
         // 에러가 날 경우 .catch()에서 메세지 다시 복원
@@ -193,7 +193,7 @@
         setTimeout(()=> {
           el.focus();
         }, 300)
-          
+
       }
     }
   }
