@@ -6,7 +6,7 @@
       </div>
       <div class="login-box"  v-if="this.$store.state.login">
           <div>
-              {{ user.displayName }} 
+              {{ user.displayName }}
           </div>
           <div class="user-photo">
               <img :src="user.photoURL">
@@ -18,7 +18,7 @@
 
 <script>
 import firebase from 'firebase';
-import { store } from '../vuex/store'
+import { store } from '../stores/index'
 export default {
     data() {
         return {
